@@ -1,0 +1,14 @@
+Subject: Urgent: Your Account Needs Verification!
+
+Dear User,
+
+We have detected unusual activity in your account. To ensure your security, please verify your identity by clicking the link below:
+
+[Click here to verify your account](http://fake-link.com)
+
+Failure to do so may result in account suspension.
+
+Thank you for your cooperation!
+
+Best,
+Customer Support
