@@ -8,6 +8,7 @@ string toLowerCase(const string& str) {
     return lowerStr;
 }
 void phishingScanner(const string &fileName){
+    //top common words and phrases in phishing emails
     unordered_map<string, int> phishingTerms = {
             {"verification required", 3},
             {"invoice", 3},
@@ -58,8 +59,10 @@ void phishingScanner(const string &fileName){
             {"your invoice", 2},
             {"unexpected payment", 3},
             {"referral bonus", 2},
-            {"urgent: update required", 3}
+            {"urgent: update required", 3},
+            {"please verify",3}
     };
+    //handling opening the text file
     ifstream file;
     try{
         file.open(fileName);
@@ -70,30 +73,35 @@ void phishingScanner(const string &fileName){
         cerr << e.what() << endl;
         return;
     }
-    unordered_map<string, int> termCounts;
-    string word;
-    int totalPoints = 0;
+    //convert the content of the mail to lowercase
+    string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
+    content = toLowerCase(content);
 
-    while (file >> word) {
-        word = toLowerCase(word);
-        if (phishingTerms.find(word) != phishingTerms.end()) {
-            termCounts[word] += phishingTerms[word];
-            totalPoints += phishingTerms[word];
+    unordered_map<string, int> termCounts;
+    int totalPoints = 0;
+    //check for phishing
+    for (const auto &term : phishingTerms) {
+        size_t pos = content.find(term.first);
+        while (pos != string::npos) {
+            termCounts[term.first] += term.second;
+            totalPoints += term.second;
+            pos = content.find(term.first, pos + 1);
         }
     }
-    cout << left << setw(30) << "Term" << "Points" << endl;
-    cout << string(40, '-') << endl;
-    for (const auto &entry : termCounts) {
-        cout << left << setw(30) << entry.first << entry.second << endl;
-    }
-    cout << string(40, '-') << endl;
-    cout << "Total Phishing Score: " << totalPoints << endl;
 
+    // print the results
+    cout << left << setw(50) << "Term" << "Points" << endl;
+    cout << string(60, '-') << endl;
+    for (const auto &entry : termCounts) {
+        cout << left << setw(50) << entry.first << entry.second << endl;
+    }
+    cout << string(60, '-') << endl;
+    cout << "Total Phishing Score: " << totalPoints << endl;
     file.close();
 }
 
 int main() {
-  cout << "Enter the name of the file to scan: ";  
+  cout << "Enter the name of the file to scan: ";
   string file;
   getline(cin ,file);
   phishingScanner(file);
