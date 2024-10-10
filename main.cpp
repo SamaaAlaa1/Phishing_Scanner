@@ -30,7 +30,35 @@ void phishingScanner(const string &fileName){
             {"amazon", 2},
             {"bank", 2},
             {"payment", 2},
-            {"login", 2}
+            {"login", 2},
+            {"congratulations", 2},
+            {"you have won", 3},
+            {"claim your prize", 3},
+            {"limited time offer", 3},
+            {"act now", 3},
+            {"risk-free", 2},
+            {"exclusive deal", 3},
+            {"confirm your account", 3},
+            {"click to verify", 3},
+            {"update your information", 3},
+            {"suspicious activity", 3},
+            {"security alert", 3},
+            {"unable to verify", 3},
+            {"reset your password", 3},
+            {"urgent action required", 3},
+            {"your account has been suspended", 3},
+            {"immediate attention needed", 3},
+            {"verify your identity", 3},
+            {"account verification", 3},
+            {"please respond", 2},
+            {"thank you for your cooperation", 2},
+            {"provide your details", 3},
+            {"we need your help", 2},
+            {"this is not a scam", 2},
+            {"your invoice", 2},
+            {"unexpected payment", 3},
+            {"referral bonus", 2},
+            {"urgent: update required", 3}
     };
     ifstream file;
     try{
@@ -53,18 +81,19 @@ void phishingScanner(const string &fileName){
             totalPoints += phishingTerms[word];
         }
     }
-    cout << "Term                Points" << endl;
-    cout << "----------------------------" << endl;
+    cout << left << setw(30) << "Term" << "Points" << endl;
+    cout << string(40, '-') << endl;
     for (const auto &entry : termCounts) {
-        cout << entry.first << "            " << entry.second << endl;
+        cout << left << setw(30) << entry.first << entry.second << endl;
     }
-    cout << "----------------------------" << endl;
+    cout << string(40, '-') << endl;
     cout << "Total Phishing Score: " << totalPoints << endl;
 
     file.close();
 }
 
 int main() {
+  cout << "Enter the name of the file to scan: ";  
   string file;
   getline(cin ,file);
   phishingScanner(file);
